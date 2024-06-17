@@ -1,1 +1,8 @@
-<p>tag-select works!</p>
+<mat-form-field class="select-container">
+    <mat-label>Toppings</mat-label>
+    <mat-select [formControl]="toppings" multiple>
+        @for (topping of toppingList; track topping) {
+          <mat-option [value]="topping">{{topping}}</mat-option>
+        }
+      </mat-select>
+  </mat-form-field>

@@ -4,6 +4,7 @@ import { TagSelectComponent } from './tag-select/tag-select.component';
 import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {startWith} from "rxjs";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export type Document = {
 	id: number;

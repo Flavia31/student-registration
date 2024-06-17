@@ -1,8 +1,9 @@
 
 <mat-form-field class="select-container">
-  <mat-select [formControl]="searchField" placeholder="Select" multiple (selectionChange)="addOption($event)">
+  <input [formControl]="searchField" matInput placeholder="Search...">
+  <mat-select [formControl]="dropdownField" placeholder="" multiple (selectionChange)="addOption($event)">
       <mat-select-trigger>
-        @if ((searchField.value?.length || 0) > 1) {
+        @if ((dropdownField.value?.length || 0) > 1) {
           <mat-chip-set #chipGrid>
             @for (option of selectedOptions; track $index) {
               <mat-chip-row (removed)="removeOption(option)">
@@ -15,17 +16,13 @@
           </mat-chip-set>
         }
       </mat-select-trigger>
-        @for (data of originalData; track data) {
-          <mat-label class="dropdown-option-label">{{data.name}}</mat-label>
-          @for (item of data.items; track item) {
-           <mat-option [value]="item.name" >{{item.name}}</mat-option>
-          }
-          <mat-autocomplete #auto="matAutocomplete">
-            @for (option of data.items; track option) {
-              <mat-option [value]="option">{{option}}</mat-option>
-            }
-          </mat-autocomplete>
+      @for (data of originalData; track data) {
+        @if (!hideCategories) {
+        <mat-label class="dropdown-option-label">{{data.name}}</mat-label>
         }
-
+        @for (item of data.items; track item) {
+          <mat-option [value]="item.name" >{{item.name}}</mat-option>
+        }
+      }
       </mat-select>
   </mat-form-field>

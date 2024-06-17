@@ -7,6 +7,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
+import { Observable, map, startWith, tap } from 'rxjs';
 
 @Component({
   selector: 'tag-select',
@@ -17,21 +18,12 @@ import {MatIconModule} from '@angular/material/icon';
 })
 export class TagSelectComponent {
   @Input() data: DocumentsCategory[] = [];
-	inputRef = viewChild<ElementRef<HTMLInputElement>>('filteringListInput');
-	hideCategories = input<boolean>();
-	// data = input<DocumentsCategory[]>();
-	placeholder = 'Search...';
-	// searchBy: string;
-	// showList: boolean;
+  @Input() hideCategories: boolean = true;
 	originalData: DocumentsCategory[] = [];
-	items: DocumentsCategory[] = [];
-
+	items: Observable<any[]> = new Observable<any[]>();
   selectedOptions: any[] = [];
-  
-	// disabled: boolean;
-
-
   searchField = new FormControl();
+  dropdownField =new FormControl();
 
   constructor(public ref: ElementRef) {
 		effect(() => {
@@ -40,40 +32,39 @@ export class TagSelectComponent {
 			}
 			this.setItems(this.data)
 		})
+
+    this.items =  this.searchField.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || ''))
+    )
 	}
+
+  private _filter(value: string): any {
+    this.hideCategories = true
+    const filterValue = value.toLowerCase();
+    this.originalData.forEach( values => {
+      values.items = values.items.filter(option => option.name.toLowerCase() === filterValue)
+
+    }
+    )
+
+  }
 
   private setItems(v?: Array<any>) {
 		const values: any[] = JSON.parse(JSON.stringify(v));
 		this.originalData = [];
-		this.items = [];
 		this.originalData = JSON.parse(JSON.stringify(values));
-
-		// values.forEach((value) => {
-		// 	const itms: any[] = value.items;
-		// 	if (itms && itms[0] && typeof itms[0] === 'string') {
-		// 		value.items = itms.map((i) => {
-		// 			return {name: i};
-		// 		});
-		// 	}
-		// 	this.items.push({
-		// 		...value,
-		// 		selected: false
-		// 	});
-		// });
-    console.log(this.originalData[0])
 	}
 
 
   addOption(options: any) {
     this.selectedOptions = []
-    console.log('Selected option',options, this.searchField)
     this.selectedOptions = options.value
-    // this.selectedOptions.push(option);
-    this.searchField.setValue(this.selectedOptions);
+    this.dropdownField.setValue(this.selectedOptions);
   }
 
   removeOption(option: string) {
     this.selectedOptions = this.selectedOptions.filter(item => item !== option);
-    this.searchField.setValue(this.selectedOptions);
+    this.dropdownField.setValue(this.selectedOptions);
   }
 }

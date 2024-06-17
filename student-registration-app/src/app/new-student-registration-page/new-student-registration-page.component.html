@@ -1,0 +1,20 @@
+<h1>New Student Registration</h1>
+
+
+<form [formGroup]="form">
+	<mat-form-field class="example-full-width">
+        <mat-label>First Name</mat-label>
+        <input matInput placeholder="" formControlName="firstName">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+    <mat-label>Last Name</mat-label>
+    <input matInput placeholder="" formControlName="lastName">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+    <mat-label>Courses</mat-label>
+    <input matInput placeholder="" formControlName="age">
+    </mat-form-field>
+
+</form> 
+<tag-select [data]="availableDocuments" [hideCategories]="false"/>

@@ -5,6 +5,7 @@ import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {startWith} from "rxjs";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NewStudentRegistrationPageComponent } from './new-student-registration-page/new-student-registration-page.component';
 
 export type Document = {
 	id: number;
@@ -22,7 +23,7 @@ export type DocumentsCategory = {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TagSelectComponent, ReactiveFormsModule],
+  imports: [RouterOutlet, NewStudentRegistrationPageComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
